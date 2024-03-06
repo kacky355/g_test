@@ -1,3 +1,4 @@
+// 正解不正解の表示
 const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
 const appendAlert = (message, type) => {
   const wrapper = document.createElement('div')
@@ -11,11 +12,13 @@ const appendAlert = (message, type) => {
   alertPlaceholder.append(wrapper)
 }
 
+// 解説の表示
 const explanation = document.getElementById('explanation')
 const showExplanation = () => {
     explanation.style.display = "block"; 
 }
 
+// 選択肢関連
 const correctTrigger = document.getElementById('correctAnswerBtn')
 if (correctTrigger) {
   correctTrigger.addEventListener('click', () => {
@@ -32,4 +35,23 @@ if (incorrectTrigger) {
         incorrectTrigger.setAttribute("disabled", true);
     })
     }
+}
+
+const optTrigger = document.getElementsByClassName('optBtn');
+
+// 見直しボタン
+
+const likeTrigger = document.getElementsByClassName('likes');
+for(i=0;i<likeTrigger.length;i++){
+  if(likeTrigger[i]){
+    likeTrigger[i].onclick = function(){
+      if(likeTrigger[i].querySelector("likeBtn").style.display == "block"){
+        likeTrigger[i].querySelector("likeBtn").style.display = "none";
+        likeTrigger[i].querySelector("unlikeBtn").style.display = "block";
+      }else{
+        likeTrigger[i].querySelector("likeBtn").style.display = "block";
+        likeTrigger[i].querySelector("unlikeBtn").style.display = "none";
+      }
+    }
+  }
 }

@@ -10,6 +10,12 @@ body {
     max-width: 700px;
   }
 
+
+
 #explanation {
     display: none;
   }
+
+.unlikeBtn{
+  display: none;
+}

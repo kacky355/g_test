@@ -5,21 +5,21 @@
 </div>
 
 <div class="d-grid gap-2">
-    <p class="fs-5 text-body-secondary">問題{{id}}</p>
-    <p class="fs-5 text-body-secondary">{{question[1]}}</p>
+    <p class="fs-5 text-body-secondary">問題{{question.q_number}}</p>
+    <p class="fs-5 text-body-secondary">{{question.q_text}}</p>
 
     <div id="liveAlertPlaceholder"></div>
     
     <div class="row gap-1 justify-content-evenly">
-    {% for opt in opts %}
-            {% if loop.index0+1 == question[6] %}
+    {% for opt in question.opts %}
+            {% if loop.index0+1 == question.ans %}
                 <button class="btn btn-primary" type="button" id="correctAnswerBtn">{{opt}}</button>
             {% else %}
                 <button class="btn btn-primary" type="button" id="incorrectAnswerBtn{{loop.index0}}">{{opt}}</button>
             {% endif %}
     {% endfor %}
     </div>
-    <p class="fs-5 text-body-secondary" id="explanation">{{question[7]}}</p>
+    <p class="fs-5 text-body-secondary" id="explanation">{{question.explanation}}</p>
 
 </div>
 

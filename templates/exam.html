@@ -1,0 +1,41 @@
+{% extends "application.html" %}
+{% block body %}
+
+
+
+<! ---全問表示
+
+チェックした問題
+
+残り時間表示
+
+問題文--->
+{% for question in questions_list.questions_list %}
+    <div class="d-grid gap-2" id="question{{question.id}}">
+        <div class="row">
+            <div class="col">
+                <p class="fs-5 text-body-secondary">問題{{question.q_number}}</p>
+            </div>
+            <div class="col">
+                    <span class="fa-stack likes">
+                        <i class="fa-regular fa-star my-gray fa-stack-2x likeBtn"></i>
+                        <i class="fa-solid fa-star my-orange fa-stack-1x unlikeBtn" ></i>
+                    </span>
+            </div>
+        </div>
+        <div class="row gap-1">
+            <p class="fs-5 text-body-secondary">{{question.q_text}}</p>
+        </div>
+        <div id="liveAlertPlaceholder"></div>
+        
+        <div class="row gap-1 justify-content-evenly">
+            {% for opt in question.opts %}
+            <button class="btn btn-primary" type="button" id="correctAnswerBtn">{{opt}}</button>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+
+<!-問題移動->
+
+{% endblock body %}
