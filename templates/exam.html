@@ -1,41 +1,31 @@
 {% extends "application.html" %}
 {% block body %}
+<script>
+    let q_list = {{ questions_list|tojson }};
+    let has_answer = false;
+    let current_id;
+</script>
+<!-- 問題番号のリストを表示するボタン-->
 
 
+<!-- 指定idに応じて問題を挿入-->
+<div class = "container" id="results_place_holder">
+    <div class="row">
+        <div class = "" id="question_place_holder">
+            <script> 
+                addEventListener('load', function(){current_id = addQuestion(0)})
+            </script>
 
-<! ---全問表示
-
-チェックした問題
-
-残り時間表示
-
-問題文--->
-{% for question in questions_list.questions_list %}
-    <div class="d-grid gap-2" id="question{{question.id}}">
-        <div class="row">
-            <div class="col">
-                <p class="fs-5 text-body-secondary">問題{{question.q_number}}</p>
-            </div>
-            <div class="col">
-                    <span class="fa-stack likes">
-                        <i class="fa-regular fa-star my-gray fa-stack-2x likeBtn"></i>
-                        <i class="fa-solid fa-star my-orange fa-stack-1x unlikeBtn" ></i>
-                    </span>
-            </div>
-        </div>
-        <div class="row gap-1">
-            <p class="fs-5 text-body-secondary">{{question.q_text}}</p>
-        </div>
-        <div id="liveAlertPlaceholder"></div>
-        
-        <div class="row gap-1 justify-content-evenly">
-            {% for opt in question.opts %}
-            <button class="btn btn-primary" type="button" id="correctAnswerBtn">{{opt}}</button>
-            {% endfor %}
         </div>
     </div>
-{% endfor %}
 
-<!-問題移動->
+    <div class ="row">
+        <div class="col mt-4">
+            <button type="button" class="btn btn-danger" onclick=getResult()>試験を終了する</button>
+        </div>
+    </div>
+</div>
+
+
 
 {% endblock body %}

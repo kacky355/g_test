@@ -1,3 +1,5 @@
+from dataclasses import asdict
+import json
 from flask import Flask, redirect, render_template, request, url_for
 from glob import glob
 import pandas as pd
@@ -30,19 +32,18 @@ def method_name():
 def question(id):
     title = '一問一答'
     from_url = request.referrer
-    try:
-        if '/question/' in from_url:
-            past_id = from_url.split('/question/')[-1]
-        else:
-            past_id = random.randint(0,question_size-1)
-            
-        question = q_maker.make_question(df_questions,id)
-        next_id = random.randint(0,question_size-1)
+
+    if '/question/' in from_url:
+        past_id = from_url.split('/question/')[-1]
+    else:
+        past_id = random.randint(0,question_size-1)
         
-        
-        return render_template('question.html',title=title,question=question,past_id=past_id,next_id=next_id)
-    except Exception as e:
-        return redirect(url_for('error',e=e))
+    question = q_maker.make_question(df_questions,id)
+    next_id = random.randint(0,question_size-1)
+    
+    
+    
+    return render_template('question.html',title=title,question=question,past_id=past_id,next_id=next_id)
 
 @app.route('/error')
 def error(e):
@@ -51,15 +52,21 @@ def error(e):
 @app.route('/exam/<int:exam_id>')
 def exam(exam_id):
     exam_id = int(exam_id)
-    exam = pd.read_csv(f'static/csv/gmoshi{exam_id}.csv')
+    exam = pd.read_csv(f'static/csv/gmoshi{exam_id}.csv',index_col=0)
     qusetions_list =q_maker.make_questions_list(exam)
-    print(1)
+    qusetions_list = json.dumps(asdict(qusetions_list))
+    
+    # print(qusetions_list)
     return render_template('exam.html',questions_list=qusetions_list)
 
 @app.route('/choose_exam')
 def choose_exam():
     exams = [x.split('/')[-1].split('.csv')[0] for x in csvs]
     return render_template('choose_exam.html',exams=exams)
+
+@app.route('/exam_result/<q_list>')
+def exam_result(q_list):
+    pass
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
