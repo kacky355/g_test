@@ -4,7 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from glob import glob
 import pandas as pd
 import random
-from question_maker import QuestionMaker
+from question_maker import QuestionMaker,QuestionList
 app = Flask(__name__)
 
 csvs = glob('./static/csv/gmoshi*.csv')
@@ -55,18 +55,22 @@ def exam(exam_id):
     exam = pd.read_csv(f'static/csv/gmoshi{exam_id}.csv',index_col=0)
     qusetions_list =q_maker.make_questions_list(exam)
     qusetions_list = json.dumps(asdict(qusetions_list))
+    title = "mosi"
     
     # print(qusetions_list)
-    return render_template('exam.html',questions_list=qusetions_list)
+    return render_template('exam.html',questions_list=qusetions_list,title=title)
 
 @app.route('/choose_exam')
 def choose_exam():
     exams = [x.split('/')[-1].split('.csv')[0] for x in csvs]
     return render_template('choose_exam.html',exams=exams)
 
-@app.route('/exam_result/<q_list>')
-def exam_result(q_list):
-    pass
+@app.route('/exam_result/', methods=['POST'])
+def exam_result():
+    q_list = request.form.get('answer_data')
+    q_list = json.loads(q_list)
+    q_list= json.dumps(q_list)
+    return render_template('exam_result.html',questions_list=q_list)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

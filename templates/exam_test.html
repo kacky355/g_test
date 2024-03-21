@@ -1,0 +1,23 @@
+{% extends "application.html" %}
+{% block body %}
+<script>
+    let title = `{{ title }}`
+    let q_list = {{ questions_list|tojson }};
+    q_list = JSON.parse(q_list);
+    const time_limit_minutes = 120;
+    let current_id;
+</script>
+<script>
+    window.onload = function(){
+        const contents_maker = new ExamContentsMaker(q_list,title,time_limit_minutes);
+        contents_maker.make_start_page();
+    }
+</script>
+
+<div class="container" id ="contents_place_holder"></div>
+
+{% endblock body %}
+
+{% block script %}
+{% comment %} <script type="module" src={{ url_for('static', filename='js/ExamContentsMaker.js')}} ></script> {% endcomment %}
+{% endblock script %}
